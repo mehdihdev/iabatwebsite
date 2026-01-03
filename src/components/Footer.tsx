@@ -59,7 +59,7 @@ export default function Footer() {
               <a href="https://x.com/iabat_org" className="hover:text-emerald-200 transition-colors">
                 Twitter
               </a>
-              <a href="https://www.instagram.com/iabatweekendschool/" className="hover:text-emerald-200 transition-colors">
+              <a href="https://www.instagram.com/iabatofficial/" className="hover:text-emerald-200 transition-colors">
                 Instagram
               </a>
               <a href="https://chat.whatsapp.com/A4aZZbWakqf68U4xTB1lDW" className="hover:text-emerald-200 transition-colors">
