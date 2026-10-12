@@ -1,63 +1,92 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
+
+const NAV_ITEMS = [
+  { href: "/", label: "Home" },
+  { href: "/about", label: "About" },
+  { href: "/building-project", label: "Building Project" },
+  { href: "/contact", label: "Contact" },
+];
 
 export default function Navbar() {
+  const pathname = usePathname();
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  useEffect(() => setMenuOpen(false), [pathname]);
+
   return (
-    <>
-      {/* Call to Action Banner */}
-      <div className="bg-emerald-700 text-white py-2 text-center">
-        <p className="text-sm">
-          🏗️ Support our Building Project - Help us build the first Shia Ithna Ashari Muslim center in North Carolina{" "}
-          <Link href="/building-project" className="underline ml-2 font-semibold">
-            Learn More
+    <nav className="sticky top-0 z-30 border-b border-line bg-cream">
+      <div className="wrap flex items-center justify-between gap-6 py-3.5">
+        <Link href="/" className="flex shrink-0 items-center gap-2.5 text-ink hover:text-ink">
+          <Image src="/iabat_mark_dark.png" alt="" width={410} height={653} className="h-10 w-auto" priority />
+          <span className="text-[19px] leading-none font-semibold tracking-[0.18em]">IABAT</span>
+        </Link>
+
+        <div className="hidden items-center gap-7 text-[15px] font-medium md:flex">
+          {NAV_ITEMS.map((n) => {
+            const active = pathname === n.href;
+            return (
+              <Link
+                key={n.href}
+                href={n.href}
+                aria-current={active ? "page" : undefined}
+                className={`border-b-2 py-1 transition-colors hover:text-brand ${
+                  active ? "border-brand text-ink" : "border-transparent text-muted"
+                }`}
+              >
+                {n.label}
+              </Link>
+            );
+          })}
+          <Link href="/donate" className="rounded-md bg-brand px-5 py-[9px] font-semibold text-white hover:bg-brand-dark">
+            Donate
           </Link>
-        </p>
+        </div>
+
+        <div className="flex items-center gap-2.5 md:hidden">
+          <Link href="/donate" className="rounded-md bg-brand px-4 py-2.5 text-sm font-semibold text-white">
+            Donate
+          </Link>
+          <button
+            type="button"
+            onClick={() => setMenuOpen((o) => !o)}
+            aria-label="Menu"
+            aria-expanded={menuOpen}
+            className="flex h-11 w-11 cursor-pointer flex-col items-center justify-center gap-1 rounded-md border border-line bg-white p-0"
+          >
+            <span className="block h-0.5 w-[18px] bg-ink" />
+            <span className="block h-0.5 w-[18px] bg-ink" />
+            <span className="block h-0.5 w-[18px] bg-ink" />
+          </button>
+        </div>
       </div>
 
-      {/* Navigation */}
-      <nav className="bg-white text-gray-800 shadow-lg">
-        <div className="container mx-auto px-4">
-          <div className="flex justify-between items-center py-4">
-            <Link href="/" className="flex items-center space-x-4">
-              <Image
-                src="/iabat_dark.png"
-                alt="IABAT Logo"
-                width={120}
-                height={40}
-                className="h-10 w-auto"
-              />
-              <div className="hidden md:block text-sm">
-                Islamic Ahlulhbayt Association of the Triangle
-              </div>
-            </Link>
-
-            <div className="hidden lg:flex space-x-8">
-              <Link href="/" className="hover:text-emerald-600 transition-colors py-2">
-                Home
+      {/* Slides open by animating the row height from 0fr to 1fr */}
+      <div
+        inert={!menuOpen}
+        className={`grid transition-[grid-template-rows,opacity] duration-300 ease-out md:hidden ${
+          menuOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
+        }`}
+      >
+        <div className="overflow-hidden">
+          <div className="flex flex-col border-t border-line bg-cream px-5 pt-2 pb-4">
+            {NAV_ITEMS.map((n) => (
+              <Link
+                key={n.href}
+                href={n.href}
+                className={`border-b border-line-soft py-3.5 text-[17px] font-medium ${
+                  pathname === n.href ? "text-ink" : "text-muted"
+                }`}
+              >
+                {n.label}
               </Link>
-              <Link href="/about" className="hover:text-emerald-600 transition-colors py-2">
-                About
-              </Link>
-              <Link href="/contact" className="hover:text-emerald-600 transition-colors py-2">
-                Contact
-              </Link>
-              <Link href="/building-project" className="hover:text-emerald-600 transition-colors py-2">
-                Building Project
-              </Link>
-              <Link href="/donate" className="hover:text-emerald-600 transition-colors py-2">
-                Donate
-              </Link>
-            </div>
-
-            <button className="lg:hidden">
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-              </svg>
-            </button>
+            ))}
           </div>
         </div>
-      </nav>
-    </>
+      </div>
+    </nav>
   );
 }
