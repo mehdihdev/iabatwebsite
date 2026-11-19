@@ -31,7 +31,6 @@ export const SOCIALS = [
   { name: "Facebook", url: "https://www.facebook.com/iabat.org/" },
   { name: "Twitter", url: "https://x.com/iabat_org" },
   { name: "Instagram", url: "https://www.instagram.com/iabatofficial/" },
-  { name: "WhatsApp", url: "https://chat.whatsapp.com/A4aZZbWakqf68U4xTB1lDW" },
 ];
 
 export const PROGRAMS = [
